@@ -76,9 +76,28 @@ local function setup_autocmds()
   })
 end
 
+local function setup_commands()
+  vim.api.nvim_create_user_command("Jumplist", function()
+    M.toggle()
+  end, { desc = "Toggle jumplist window" })
+
+  vim.api.nvim_create_user_command("JumplistOpen", function()
+    M.open()
+  end, { desc = "Open jumplist window" })
+
+  vim.api.nvim_create_user_command("JumplistClose", function()
+    M.close()
+  end, { desc = "Close jumplist window" })
+
+  vim.api.nvim_create_user_command("JumplistRefresh", function()
+    M.refresh()
+  end, { desc = "Refresh jumplist display" })
+end
+
 function M.setup(opts)
   config.setup(opts)
   setup_autocmds()
+  setup_commands()
 end
 
 function M.open()

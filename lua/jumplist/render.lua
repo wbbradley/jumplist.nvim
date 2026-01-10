@@ -74,6 +74,8 @@ function M.refresh()
   local lines = {}
   local highlights = {}
 
+  local at_head = current_idx > #jumplist
+
   table.insert(lines, "Jumplist (" .. #jumplist .. " entries)")
   table.insert(lines, string.rep("-", opts.width - 2))
 
@@ -89,7 +91,20 @@ function M.refresh()
     end
   end
 
-  if #jumplist == 0 then
+  if at_head then
+    local marker = ">"
+    local cur_file = vim.fn.expand("%:~:.")
+    if cur_file == "" then
+      cur_file = "[No Name]"
+    end
+    local cur_line = vim.fn.line(".")
+    local short_name = shorten_path(cur_file, opts.width - 10)
+    local head_line = string.format("%s     %s:%d (current)", marker, short_name, cur_line)
+    table.insert(lines, head_line)
+    table.insert(highlights, { line = #lines - 1, col_start = 0, col_end = -1 })
+  end
+
+  if #jumplist == 0 and not at_head then
     table.insert(lines, "")
     table.insert(lines, "  (empty)")
   end
