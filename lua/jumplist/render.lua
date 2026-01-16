@@ -24,11 +24,6 @@ local function shorten_path(path, max_width)
   if #filename >= max_width then
     return string.sub(filename, 1, max_width - 3) .. "..."
   end
-  local remaining = max_width - #filename - 4
-  if remaining > 0 then
-    local dir = vim.fn.fnamemodify(path, ":h")
-    return ".../" .. string.sub(dir, -remaining) .. "/" .. filename
-  end
   return filename
 end
 
