@@ -1,0 +1,111 @@
+*jumplist.txt*  A sidebar for navigating Neovim's jumplist
+
+==============================================================================
+CONTENTS                                                   *jumplist-contents*
+
+    1. Introduction ............................ |jumplist-introduction|
+    2. Commands ................................ |jumplist-commands|
+    3. Sidebar Keymaps ......................... |jumplist-keymaps|
+    4. Configuration ........................... |jumplist-configuration|
+    5. About the Jumplist ...................... |jumplist-about|
+
+==============================================================================
+INTRODUCTION                                           *jumplist-introduction*
+                                                              *jumplist.nvim*
+
+jumplist.nvim provides a sidebar window for visualizing and navigating
+Neovim's built-in jumplist. The jumplist tracks locations you've jumped to
+using commands like `<C-o>`, `<C-i>`, `gg`, `G`, search commands, and more.
+
+Quick start: >lua
+    require("jumplist").setup()
+<
+Then use `:Jumplist` to toggle the sidebar.
+
+==============================================================================
+COMMANDS                                                   *jumplist-commands*
+
+                                                                   *:Jumplist*
+:Jumplist               Toggle the jumplist sidebar open or closed.
+
+                                                               *:JumplistOpen*
+:JumplistOpen           Open the jumplist sidebar.
+
+                                                              *:JumplistClose*
+:JumplistClose          Close the jumplist sidebar.
+
+                                                            *:JumplistRefresh*
+:JumplistRefresh        Manually refresh the jumplist display.
+
+==============================================================================
+SIDEBAR KEYMAPS                                             *jumplist-keymaps*
+
+When the jumplist sidebar is focused, the following keymaps are available:
+
+    <CR>        Jump to the entry under the cursor (keeps sidebar open)
+    o           Jump to the entry under the cursor and close the sidebar
+    q           Close the sidebar
+    r           Refresh the jumplist display
+
+==============================================================================
+CONFIGURATION                                         *jumplist-configuration*
+
+Pass a table to `setup()` to customize behavior: >lua
+
+    require("jumplist").setup({
+        width = 40,              -- Sidebar width in columns
+        position = "right",      -- "right" or "left"
+        auto_update = true,      -- Update on CursorMoved and BufEnter
+        show_line_content = true,-- Show line content in entries
+        max_entries = 50,        -- Maximum entries to display
+    })
+<
+                                                         *jumplist-config.width*
+width ~
+    Type: `number`, Default: `40`
+    Width of the sidebar window in columns.
+
+                                                      *jumplist-config.position*
+position ~
+    Type: `string`, Default: `"right"`
+    Which side to display the sidebar. Valid values: `"right"`, `"left"`.
+
+                                                   *jumplist-config.auto_update*
+auto_update ~
+    Type: `boolean`, Default: `true`
+    When true, the jumplist display updates automatically when the cursor
+    moves or you enter a buffer.
+
+                                             *jumplist-config.show_line_content*
+show_line_content ~
+    Type: `boolean`, Default: `true`
+    When true, show the content of each line in the jumplist entries.
+
+                                                   *jumplist-config.max_entries*
+max_entries ~
+    Type: `number`, Default: `50`
+    Maximum number of jumplist entries to display.
+
+==============================================================================
+ABOUT THE JUMPLIST                                            *jumplist-about*
+
+Neovim maintains a jumplist that records cursor positions before "jumps".
+A jump is any motion that moves the cursor more than a few lines or to a
+different buffer. Examples include:
+
+    - `<C-o>` / `<C-i>` (navigate backward/forward in jumplist)
+    - `gg`, `G` (go to start/end of file)
+    - `{`, `}` (paragraph motions)
+    - `/pattern`, `?pattern`, `n`, `N` (search motions)
+    - `:edit`, `:buffer` (switching buffers)
+    - Tag jumps (`<C-]>`, `:tag`)
+
+The sidebar displays entries with:
+    - `>` marker indicating the current position in the jump stack
+    - File path and line number
+    - Line content (if `show_line_content` is enabled)
+
+Use |:jumps| to see the raw jumplist in the command line.
+
+==============================================================================
+vim:tw=78:ts=8:ft=help:norl:
